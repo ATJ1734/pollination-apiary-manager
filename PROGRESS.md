@@ -55,5 +55,18 @@
   rule (`hasOverlap`), the minimum-frames rule, and all-or-nothing `assignBulk`.
   Demo database reset back to its planted state afterward with `bin/demo-reset`.
 
+- Milestone 6 (Dashboard & reports): all 5 tiles verified against hand-written SQL
+  (active hives 128, over mite threshold 55, overdue inspections 4, active contracts 1,
+  60-day shortfall 15 -- every one matched exactly). All three Chart.js charts render
+  correctly in the browser pane (no console errors): the mite-load-by-apiary line chart
+  visibly shows "Clearwater Bend" climbing in the last few months (the planted story), the
+  colony-strength bar chart, and contracts filled-vs-required. The needs-attention panel's
+  mite alerts list is dominated by Clearwater Bend hives, as expected. CSV export works for
+  all six entities and drops `rate_per_hive` for field techs (checked directly, not just
+  hidden in the UI). Print view confirmed in-browser: clean letterhead, terms, placed-hives
+  table, signature line, sized to US Letter width.
+  Fixed a PHP 8.4 deprecation (`fputcsv()` needs its `$escape` parameter passed explicitly
+  now) that was otherwise corrupting the CSV output with inline warning text.
+
 ## What doesn't / known gaps
 (updated as milestones complete)
