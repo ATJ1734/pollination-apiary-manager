@@ -85,6 +85,16 @@ function wireToggles() {
     });
 }
 
+/** A header checkbox with data-select-all="<class>" toggles every .<class> checkbox on the page. */
+function wireSelectAll() {
+    document.querySelectorAll('[data-select-all]').forEach((header) => {
+        const targets = document.querySelectorAll(`.${header.dataset.selectAll}`);
+        header.addEventListener('change', () => {
+            targets.forEach((cb) => { cb.checked = header.checked; });
+        });
+    });
+}
+
 /** Renders a Chart.js line/bar chart from a canvas's data-* attributes. Chart.js itself
  *  loads as a classic <script> before this module, so `window.Chart` is already set. */
 function wireCharts() {
@@ -109,5 +119,6 @@ document.addEventListener('DOMContentLoaded', () => {
     wireLiveSearch();
     wireSteppers();
     wireToggles();
+    wireSelectAll();
     wireCharts();
 });

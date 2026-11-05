@@ -223,7 +223,7 @@ via a `roles: [...]` entry per route.
 - [x] 2. Skeleton — PHP built-in server fallback (no Docker on this machine, see DECISIONS.md), front controller, router, config, .env, layout, theme, placeholder logo, sign-in/out.
 - [x] 3. Database — migrations, migrate script, seed script, planted stories verified by SQL.
 - [x] 4. Core records — apiaries/hives/inspections/treatments CRUD + search + audit log + tests.
-- [ ] 5. Contracts — growers/contracts/placements/planner + overlap/min-frames/all-or-nothing tests.
+- [x] 5. Contracts — growers/contracts/placements/planner + overlap/min-frames/all-or-nothing tests.
 - [ ] 6. Dashboard & reports — tiles, charts, needs-attention, CSV export, print view.
 - [ ] 7. Roles/admin/polish — user admin, audit log page, role checks, error pages, empty states, 375px layout.
 - [ ] 8. Final pass — README.md, DEMO.md, clean-start test.

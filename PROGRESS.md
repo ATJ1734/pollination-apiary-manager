@@ -43,5 +43,17 @@
   date-ordering rule (`DateRulesTest`). Live search confirmed to also work via a plain GET
   (no-JS fallback), since the search box sits inside a `<form method="get">`.
 
+- Milestone 5 (Contracts): contracts CRUD, contract detail page (fill status, placed-hives
+  list with remove), and the planner are all working. Verified over curl against the planted
+  shortfall contract: 60 required, 45 placed, 13 eligible (correctly shows the "won't fully
+  close the gap" warning), assigning 2 eligible hives moved it to 47/60 with 11 eligible left.
+  Confirmed the all-or-nothing rule directly: re-submitting an already-placed hive alongside
+  a fresh eligible one rolled back both (fresh hive count stayed at 0 for that batch).
+  Field tech role checked: `/contracts/{id}` hides "Rate per hive"/"Estimated total" entirely
+  (not just CSS-hidden), `/contracts/{id}/planner`, `/growers`, and `/admin/users` all 403.
+  27 PHPUnit tests pass total, including `PlacementBusinessRuleTest` covering the overlap
+  rule (`hasOverlap`), the minimum-frames rule, and all-or-nothing `assignBulk`.
+  Demo database reset back to its planted state afterward with `bin/demo-reset`.
+
 ## What doesn't / known gaps
 (updated as milestones complete)
