@@ -37,14 +37,14 @@ a:hover { text-decoration: underline; }
 /* ---- App shell ---- */
 .app-header {
     background: var(--brand-deep);
-    color: #fff;
+    color: var(--on-dark);
     display: flex;
     align-items: center;
     gap: 12px;
     padding: 10px 16px;
     flex-wrap: wrap;
 }
-.app-header a { color: #fff; text-decoration: none; }
+.app-header a { color: var(--on-dark); text-decoration: none; }
 .app-header .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.1rem; }
 .app-header .tagline { color: var(--brand-tint); font-size: 0.8rem; font-weight: 400; }
 
@@ -63,7 +63,7 @@ a:hover { text-decoration: underline; }
     border-bottom: 3px solid transparent;
 }
 .app-nav a.active {
-    color: #fff;
+    color: var(--on-dark);
     border-bottom-color: var(--brand);
 }
 .app-nav .spacer { flex: 1; }
@@ -72,7 +72,7 @@ a:hover { text-decoration: underline; }
     background: none; border: none; color: var(--brand-tint); font-size: 0.95rem;
     padding: 10px 14px; cursor: pointer; font-family: inherit;
 }
-.app-nav button.link-button:hover { color: #fff; }
+.app-nav button.link-button:hover { color: var(--on-dark); }
 
 .app-main {
     max-width: 1280px;
@@ -113,7 +113,7 @@ a:hover { text-decoration: underline; }
     line-height: 1.2;
 }
 .btn-primary { background: var(--brand); color: var(--ink); font-weight: 600; }
-.btn-primary:hover { background: var(--brand-strong); color: #fff; }
+.btn-primary:hover { background: var(--brand-strong); color: var(--on-dark); }
 .btn-secondary { background: var(--surface-raised); color: var(--brand-strong); border-color: var(--border-strong); }
 .btn-secondary:hover { background: var(--brand-tint); }
 .btn-danger { background: var(--surface-raised); color: var(--danger); border-color: var(--danger); }
@@ -209,7 +209,7 @@ textarea { min-height: 90px; }
 table { width: 100%; border-collapse: collapse; font-size: 1rem; }
 th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
 th { color: var(--muted); font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.03em; }
-tbody tr:nth-child(even) { background: #FBF7EA; }
+tbody tr:nth-child(even) { background: var(--stripe); }
 tbody tr:hover { background: var(--brand-tint); }
 .table-toolbar { display: flex; gap: 10px; align-items: center; margin-bottom: 12px; flex-wrap: wrap; }
 .table-toolbar input[type="search"] { max-width: 280px; }

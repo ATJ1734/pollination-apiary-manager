@@ -18,5 +18,12 @@
     --success: #2F6B2F;
     --success-tint: #E3F0DF;
 
+    /* Two small additions beyond the brief's table, so every color in the
+       app -- including these -- is still a custom property, not a literal:
+       --on-dark is the "white text" the brief itself specifies for
+       --brand-deep (9.1:1); --stripe is the faint even-row wash for tables. */
+    --on-dark: #FFFFFF;
+    --stripe: #FBF7EA;
+
     --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }

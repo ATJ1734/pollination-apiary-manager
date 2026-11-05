@@ -41,6 +41,17 @@ Rather than a separate export-only query, `ExportController` calls the same repo
 list pages use, then strips money columns before writing CSV when the signed-in user is a
 field tech — one place decides what a field tech may see, not two.
 
+### Two extra CSS tokens beyond the brief's table: `--on-dark`, `--stripe`
+The brief's token table never names a color for the "white text" it
+explicitly calls for on `--brand-deep`, or for the table zebra-stripe it
+asks for separately. Leaving those as literal `#fff` / `#FBF7EA` would have
+broken "define every color as a CSS custom property... use only these
+tokens in the rest of the CSS" the moment anyone looked at `app.css`. Added
+`--on-dark` (the exact white the brief's own contrast note specifies) and
+`--stripe` (the same faint wash already in use) as named tokens in
+`theme.css`, clearly marked as additions, rather than leaving two colors
+unaccounted for.
+
 ### No PDF generation; print page uses print CSS
 The brief says "Do not generate PDFs on the server." `contracts/print.php` is a normal page
 with a `@media print` stylesheet and no interactive chrome in print, so the browser's own
