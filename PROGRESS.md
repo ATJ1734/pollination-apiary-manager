@@ -81,5 +81,42 @@
   Fixed a PHP 8.4 `fputcsv()` deprecation (see milestone 6) was the only runtime warning
   found so far; none seen in `php -S`'s log during any of this milestone's testing.
 
+- Milestone 8 (Final pass): wrote README.md and DEMO.md, then ran the clean-start test the
+  brief asks for, adapted to this machine's fallback (no Docker to tear down/rebuild):
+  cloned the committed git history into a fresh temp directory, followed README Option B
+  word for word (`cp .env.example .env`, edit DB credentials, `composer install`,
+  `php bin/migrate`, `php bin/seed`, `php -S`), against a brand-new MySQL database the app
+  had never touched before. Result: identical row counts to the original seed run (proving
+  `bin/seed` really is deterministic from a clean slate, not just idempotent against existing
+  data), `composer test` 27/27 passing, `bin/smoke` 51/51 passing, and the server log clean
+  of every PHP warning/notice/deprecation across all 18 pages exercised (dashboard, every
+  record list, the planner, print view, every CSV export, admin). That clean-clone test did
+  surface one real gap, fixed before this pass finished: `tests/bootstrap.php` assumed the
+  `<DB_DATABASE>_test` database already existed, which it won't on a true first run -- it now
+  tries to `CREATE DATABASE IF NOT EXISTS` it first (documented as best-effort in README,
+  since a restricted shared-host DB user may not have that privilege).
+  The temporary clone, its two scratch databases, and its server process were all torn down
+  afterward; the main demo database's row counts (3 users, 6 apiaries, 150 hives, 388
+  placements) were confirmed unchanged by any of this milestone's testing.
+
 ## What doesn't / known gaps
-(updated as milestones complete)
+
+- **Docker was never actually run.** `docker-compose.yml` and `docker/Dockerfile` are
+  written to the brief's spec (PHP 8.4 + Apache, MySQL 8.4, named volume, DB health check,
+  `public/` as document root), but this build machine had no Docker installed (see the first
+  entry in "What works" above and DECISIONS.md). Everything else in this file -- every
+  milestone check, all tests, the smoke test, and the clean-start test -- was verified
+  through the PHP-built-in-server fallback instead. If `docker compose up` doesn't work
+  cleanly the first time on a machine that does have Docker, start there.
+- **Shared-host deployment steps (README) are documented but untested** -- there was no
+  actual shared PHP host available to deploy to and confirm against. The steps follow from
+  how the app is already structured (document root at `public/`, everything configured from
+  `.env`, no local disk writes besides sessions), but they haven't been run end-to-end on a
+  real host.
+- The audit log starts empty on a freshly seeded database -- `database/seed.php` writes
+  directly via repositories/PDO rather than through the controllers, so it never calls
+  `AuditLog::record()`. This is realistic (a real deployment's audit trail should only
+  contain real user actions, not synthetic demo data) but means the audit log page will be
+  empty until someone actually uses the app after seeding; DEMO.md doesn't rely on it.
+- No PDF generation, by design (the brief says not to generate PDFs on the server); the
+  print view is plain HTML + print.css and relies on the browser's own print/Save-as-PDF.

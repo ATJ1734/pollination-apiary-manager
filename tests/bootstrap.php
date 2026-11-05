@@ -11,8 +11,25 @@ require $root . '/vendor/autoload.php';
 EnvLoader::load($root . '/.env');
 
 // Tests run against a separate database so they never touch demo data.
-putenv('DB_DATABASE=' . (getenv('DB_DATABASE') . '_test'));
-$_ENV['DB_DATABASE'] = getenv('DB_DATABASE');
+$testDatabase = getenv('DB_DATABASE') . '_test';
+putenv('DB_DATABASE=' . $testDatabase);
+$_ENV['DB_DATABASE'] = $testDatabase;
+
+// Best-effort: create the test database if it doesn't exist yet and the DB
+// user has CREATE privileges (true for local dev; a shared host's DB user
+// usually won't, so this silently falls through to the connection below,
+// which gives a clear error if the database genuinely doesn't exist).
+try {
+    $cfg = config('database');
+    $bootstrapPdo = new PDO(
+        sprintf('mysql:host=%s;port=%s;charset=%s', $cfg['host'], $cfg['port'], $cfg['charset']),
+        $cfg['username'],
+        $cfg['password'],
+    );
+    $bootstrapPdo->exec("CREATE DATABASE IF NOT EXISTS `{$testDatabase}` CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci");
+} catch (PDOException) {
+    // No CREATE privilege (or no server reachable yet) -- fall through.
+}
 
 $pdo = Database::connection();
 $pdo->exec(
