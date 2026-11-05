@@ -225,5 +225,5 @@ via a `roles: [...]` entry per route.
 - [x] 4. Core records — apiaries/hives/inspections/treatments CRUD + search + audit log + tests.
 - [x] 5. Contracts — growers/contracts/placements/planner + overlap/min-frames/all-or-nothing tests.
 - [x] 6. Dashboard & reports — tiles, charts, needs-attention, CSV export, print view.
-- [ ] 7. Roles/admin/polish — user admin, audit log page, role checks, error pages, empty states, 375px layout.
+- [x] 7. Roles/admin/polish — user admin, audit log page, role checks, error pages, empty states, 375px layout.
 - [ ] 8. Final pass — README.md, DEMO.md, clean-start test.

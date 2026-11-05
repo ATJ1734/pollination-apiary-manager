@@ -1,0 +1,116 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+// Signs in as each demo role and requests every page, failing on any
+// unexpected HTTP status. Needs the app already running (php -S or Docker).
+// Base URL: SMOKE_BASE_URL env var, default http://127.0.0.1:8080.
+
+$base = getenv('SMOKE_BASE_URL') ?: 'http://127.0.0.1:8080';
+
+$users = [
+    'admin' => ['email' => 'admin@example.com', 'password' => getenv('DEMO_ADMIN_PASSWORD') ?: 'AdminDemo!2026'],
+    'manager' => ['email' => 'manager@example.com', 'password' => getenv('DEMO_MANAGER_PASSWORD') ?: 'ManagerDemo!2026'],
+    'field_tech' => ['email' => 'fieldtech@example.com', 'password' => getenv('DEMO_FIELD_TECH_PASSWORD') ?: 'FieldDemo!2026'],
+];
+
+// path => [allowed roles] ("any" means every signed-in role gets 200)
+$pages = [
+    '/dashboard' => 'any',
+    '/apiaries' => 'any',
+    '/hives' => 'any',
+    '/hives/1' => 'any',
+    '/inspections' => 'any',
+    '/inspections/create' => 'any',
+    '/treatments' => 'any',
+    '/treatments/create' => 'any',
+    '/contracts' => 'any',
+    '/contracts/1' => 'any',
+    '/growers' => ['admin', 'manager'],
+    '/contracts/1/planner' => ['admin', 'manager'],
+    '/contracts/1/print' => ['admin', 'manager'],
+    '/admin/users' => ['admin'],
+    '/admin/audit-log' => ['admin'],
+    '/apiaries/create' => ['admin', 'manager'],
+    '/hives/create' => ['admin', 'manager'],
+];
+
+$failures = [];
+$checks = 0;
+
+foreach ($users as $role => $creds) {
+    $cookieFile = tempnam(sys_get_temp_dir(), 'smoke_');
+
+    $loginPage = httpRequest($base . '/login', 'GET', $cookieFile);
+    $csrf = extractCsrf($loginPage['body']);
+
+    $login = httpRequest($base . '/login', 'POST', $cookieFile, [
+        'email' => $creds['email'],
+        'password' => $creds['password'],
+        '_csrf' => $csrf,
+    ]);
+    if ($login['status'] !== 302) {
+        $failures[] = "[{$role}] login failed, expected 302, got {$login['status']}";
+        continue;
+    }
+
+    foreach ($pages as $path => $allowedRoles) {
+        $checks++;
+        $allowed = $allowedRoles === 'any' || in_array($role, $allowedRoles, true);
+        $expected = $allowed ? 200 : 403;
+
+        $response = httpRequest($base . $path, 'GET', $cookieFile);
+        if ($response['status'] !== $expected) {
+            $failures[] = "[{$role}] GET {$path} expected {$expected}, got {$response['status']}";
+        }
+
+        if ($role === 'field_tech' && $allowed && str_contains($response['body'], 'Rate per hive')) {
+            $failures[] = "[{$role}] GET {$path} leaked \"Rate per hive\" text";
+        }
+    }
+
+    unlink($cookieFile);
+}
+
+printf("Ran %d checks across %d roles.\n", $checks, count($users));
+
+if ($failures !== []) {
+    echo "FAILED:\n";
+    foreach ($failures as $f) {
+        echo "  - {$f}\n";
+    }
+    exit(1);
+}
+
+echo "All smoke checks passed.\n";
+
+/** @return array{status: int, body: string} */
+function httpRequest(string $url, string $method, string $cookieFile, array $postFields = []): array
+{
+    $ch = curl_init($url);
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_COOKIEJAR => $cookieFile,
+        CURLOPT_COOKIEFILE => $cookieFile,
+        CURLOPT_FOLLOWLOCATION => false,
+        CURLOPT_CUSTOMREQUEST => $method,
+    ]);
+    if ($method === 'POST') {
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postFields));
+    }
+    $body = curl_exec($ch);
+    $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    return ['status' => $status, 'body' => (string) $body];
+}
+
+function extractCsrf(string $html): string
+{
+    if (preg_match('/name="_csrf" value="([^"]+)"/', $html, $m)) {
+        return $m[1];
+    }
+
+    return '';
+}

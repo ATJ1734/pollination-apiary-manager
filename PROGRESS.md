@@ -68,5 +68,18 @@
   Fixed a PHP 8.4 deprecation (`fputcsv()` needs its `$escape` parameter passed explicitly
   now) that was otherwise corrupting the CSV output with inline warning text.
 
+- Milestone 7 (Roles, admin, polish): admin user management (create/edit/delete, password
+  optional on edit, can't delete your own account) and a filterable audit log page, both
+  admin-only. `bin/smoke` signs in as each of the 3 demo roles and requests every page
+  (51 checks total) -- all pass, including that a field tech gets 403 on the planner and on
+  user admin, and that "Rate per hive" never appears in a field-tech response body. Checked
+  the dashboard, the contract planner (the demo's centerpiece), and the mobile inspection
+  form in the browser pane at both 375px and 1440px: no horizontal page scroll at either
+  width (confirmed via `document.documentElement.scrollWidth`), the number steppers and
+  queen/eggs toggles work by click, and the planner's hive table scrolls internally on
+  narrow screens rather than breaking the page. No layout fixes were needed.
+  Fixed a PHP 8.4 `fputcsv()` deprecation (see milestone 6) was the only runtime warning
+  found so far; none seen in `php -S`'s log during any of this milestone's testing.
+
 ## What doesn't / known gaps
 (updated as milestones complete)
