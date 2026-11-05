@@ -85,9 +85,29 @@ function wireToggles() {
     });
 }
 
+/** Renders a Chart.js line/bar chart from a canvas's data-* attributes. Chart.js itself
+ *  loads as a classic <script> before this module, so `window.Chart` is already set. */
+function wireCharts() {
+    if (typeof window.Chart === 'undefined') return;
+
+    document.querySelectorAll('[data-chart]').forEach((canvas) => {
+        const type = canvas.dataset.chart;
+        const labels = JSON.parse(canvas.dataset.labels || '[]');
+        const datasets = JSON.parse(canvas.dataset.datasets || '[]');
+        const options = JSON.parse(canvas.dataset.options || '{}');
+
+        new window.Chart(canvas, {
+            type,
+            data: { labels, datasets },
+            options: { responsive: true, maintainAspectRatio: false, ...options },
+        });
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     wireConfirmModals();
     wireLiveSearch();
     wireSteppers();
     wireToggles();
+    wireCharts();
 });

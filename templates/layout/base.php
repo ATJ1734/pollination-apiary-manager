@@ -86,6 +86,12 @@ $isFieldTech = is_field_tech();
     </div>
 </div>
 
+<?php foreach ($extraScripts ?? [] as $src): ?>
+    <script src="<?= e($src) ?>"></script>
+<?php endforeach; ?>
 <script type="module" src="/assets/js/app.js"></script>
+<?php if (!empty($inlineScript)): ?>
+    <script type="module"><?= $inlineScript ?></script>
+<?php endif; ?>
 </body>
 </html>
