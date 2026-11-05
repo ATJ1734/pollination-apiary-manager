@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 104" width="40" height="36" role="img" aria-label="Company logo placeholder">
+    <polygon points="60,2 114,27 114,77 60,102 6,77 6,27"
+             fill="#5C4500" stroke="#B8860B" stroke-width="4"/>
+    <text x="60" y="58" text-anchor="middle" font-family="-apple-system,Segoe UI,Arial,sans-serif"
+          font-size="22" font-weight="700" fill="#F6ECCB">LOGO</text>
+</svg>

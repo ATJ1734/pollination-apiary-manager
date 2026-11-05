@@ -1,0 +1,7 @@
+/.env
+/vendor/
+/.devdb/
+/.devtools/
+/composer.lock
+*.log
+.phpunit.cache/

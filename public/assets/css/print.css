@@ -1,0 +1,16 @@
+/* Loaded with media="print" plus used directly on the contract print page.
+   Hides app chrome and lays the summary out for US Letter paper. */
+@media print {
+    .app-header, .app-nav, .app-footer, .no-print { display: none !important; }
+    .app-main { max-width: none; padding: 0; margin: 0; }
+    body { background: #fff; }
+}
+
+.print-sheet { max-width: 7.5in; margin: 0 auto; padding: 0.5in; }
+.print-letterhead { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid var(--brand); padding-bottom: 12px; margin-bottom: 16px; }
+.print-letterhead .company-block { font-size: 0.9rem; color: var(--muted); }
+.print-letterhead .company-name { font-size: 1.2rem; font-weight: 700; color: var(--ink); }
+.print-section { margin-bottom: 18px; }
+.print-section h2 { font-size: 1rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); border-bottom: 1px solid var(--border); padding-bottom: 4px; }
+.signature-line { margin-top: 48px; display: flex; gap: 40px; }
+.signature-line .sig { flex: 1; border-top: 1px solid var(--ink); padding-top: 6px; font-size: 0.85rem; color: var(--muted); }

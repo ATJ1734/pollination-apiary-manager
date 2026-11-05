@@ -1,0 +1,290 @@
+/* Plain CSS, no framework. Layout, components, and typography. All colors
+   come from theme.css tokens — never a literal hex value here. */
+
+* { box-sizing: border-box; }
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--surface);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+a { color: var(--brand-strong); }
+a:hover { text-decoration: underline; }
+
+:focus-visible {
+    outline: 3px solid var(--brand);
+    outline-offset: 2px;
+}
+
+.skip-link {
+    position: absolute;
+    left: -9999px;
+}
+.skip-link:focus {
+    left: 8px;
+    top: 8px;
+    background: var(--surface-raised);
+    padding: 8px 12px;
+    border-radius: 6px;
+    z-index: 100;
+}
+
+/* ---- App shell ---- */
+.app-header {
+    background: var(--brand-deep);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    flex-wrap: wrap;
+}
+.app-header a { color: #fff; text-decoration: none; }
+.app-header .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.1rem; }
+.app-header .tagline { color: var(--brand-tint); font-size: 0.8rem; font-weight: 400; }
+
+.app-nav {
+    background: var(--brand-deep);
+    border-top: 1px solid rgba(255,255,255,0.15);
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 8px;
+}
+.app-nav a {
+    display: inline-block;
+    padding: 10px 14px;
+    color: var(--brand-tint);
+    font-size: 0.95rem;
+    border-bottom: 3px solid transparent;
+}
+.app-nav a.active {
+    color: #fff;
+    border-bottom-color: var(--brand);
+}
+.app-nav .spacer { flex: 1; }
+.app-nav form { display: flex; align-items: center; }
+.app-nav button.link-button {
+    background: none; border: none; color: var(--brand-tint); font-size: 0.95rem;
+    padding: 10px 14px; cursor: pointer; font-family: inherit;
+}
+.app-nav button.link-button:hover { color: #fff; }
+
+.app-main {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 20px 16px 48px;
+}
+
+.app-footer {
+    background: var(--brand-deep);
+    color: var(--brand-tint);
+    padding: 20px 16px;
+    font-size: 0.9rem;
+    margin-top: 40px;
+}
+.app-footer .footer-inner { max-width: 1280px; margin: 0 auto; }
+
+/* ---- Page header ---- */
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+.page-header h1 { margin: 0; font-size: 1.5rem; }
+
+/* ---- Buttons ---- */
+.btn {
+    display: inline-block;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    padding: 9px 16px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    cursor: pointer;
+    text-decoration: none;
+    line-height: 1.2;
+}
+.btn-primary { background: var(--brand); color: var(--ink); font-weight: 600; }
+.btn-primary:hover { background: var(--brand-strong); color: #fff; }
+.btn-secondary { background: var(--surface-raised); color: var(--brand-strong); border-color: var(--border-strong); }
+.btn-secondary:hover { background: var(--brand-tint); }
+.btn-danger { background: var(--surface-raised); color: var(--danger); border-color: var(--danger); }
+.btn-danger:hover { background: var(--danger-tint); }
+.btn-sm { padding: 5px 10px; font-size: 0.85rem; }
+.btn[disabled] { opacity: 0.5; cursor: not-allowed; }
+
+/* ---- Cards / panels ---- */
+.card {
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+.panel-attention {
+    background: var(--brand-tint);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+}
+.panel-attention h2 { margin-top: 0; font-size: 1.1rem; }
+.panel-attention ul { margin: 0; padding-left: 20px; }
+.panel-attention li { margin-bottom: 6px; }
+
+/* ---- Tiles ---- */
+.tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+}
+.tile {
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+}
+.tile .tile-value { font-size: 2rem; font-weight: 700; color: var(--brand-strong); }
+.tile .tile-label { color: var(--muted); font-size: 0.9rem; }
+.tile.tile-alert .tile-value { color: var(--danger); }
+
+/* ---- Charts ---- */
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+.chart-card canvas { max-height: 280px; }
+
+/* ---- Forms ---- */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+}
+.field { margin-bottom: 14px; }
+.field label { display: block; font-weight: 600; margin-bottom: 4px; }
+.field .hint { color: var(--muted); font-size: 0.85rem; margin-top: 4px; }
+input, select, textarea {
+    width: 100%;
+    font: inherit;
+    padding: 10px 12px;
+    border: 1px solid var(--border-strong);
+    border-radius: 6px;
+    background: var(--surface-raised);
+    color: var(--ink);
+}
+textarea { min-height: 90px; }
+.checkbox-field { display: flex; align-items: center; gap: 8px; }
+.checkbox-field input { width: auto; }
+.error-text { color: var(--danger); font-size: 0.85rem; margin-top: 4px; }
+.field.has-error input, .field.has-error select, .field.has-error textarea { border-color: var(--danger); }
+.form-actions { display: flex; gap: 10px; margin-top: 16px; }
+
+/* Number steppers for the mobile inspection form */
+.stepper { display: flex; align-items: center; gap: 8px; }
+.stepper button {
+    width: 44px; height: 44px; border-radius: 8px; border: 1px solid var(--border-strong);
+    background: var(--surface-raised); font-size: 1.3rem; cursor: pointer;
+}
+.stepper input { text-align: center; max-width: 80px; }
+.toggle-field { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.toggle-field button {
+    min-width: 72px; padding: 10px 14px; border-radius: 20px; border: 1px solid var(--border-strong);
+    background: var(--surface-raised); font-weight: 600; cursor: pointer;
+}
+.toggle-field button.on { background: var(--brand); border-color: var(--brand); color: var(--ink); }
+
+/* ---- Tables ---- */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 1rem; }
+th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+th { color: var(--muted); font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.03em; }
+tbody tr:nth-child(even) { background: #FBF7EA; }
+tbody tr:hover { background: var(--brand-tint); }
+.table-toolbar { display: flex; gap: 10px; align-items: center; margin-bottom: 12px; flex-wrap: wrap; }
+.table-toolbar input[type="search"] { max-width: 280px; }
+.badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: var(--brand-tint);
+    color: var(--brand-strong);
+}
+.badge-danger { background: var(--danger-tint); color: var(--danger); }
+.badge-success { background: var(--success-tint); color: var(--success); }
+.badge-muted { background: var(--border); color: var(--muted); }
+
+/* ---- Pagination ---- */
+.pagination { display: flex; gap: 6px; margin-top: 16px; flex-wrap: wrap; }
+.pagination a, .pagination span {
+    display: inline-block; padding: 6px 12px; border: 1px solid var(--border-strong);
+    border-radius: 6px; text-decoration: none; color: var(--brand-strong);
+}
+.pagination .current { background: var(--brand); color: var(--ink); font-weight: 700; border-color: var(--brand); }
+
+/* ---- Flash messages ---- */
+.flash { padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; }
+.flash-success { background: var(--success-tint); color: var(--success); }
+.flash-error { background: var(--danger-tint); color: var(--danger); }
+
+/* ---- Empty states ---- */
+.empty-state {
+    text-align: center;
+    padding: 48px 16px;
+    color: var(--muted);
+}
+.empty-state .hex {
+    width: 64px; height: 56px; margin: 0 auto 12px;
+    background: var(--brand-tint);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+/* ---- Modal (deletes) ---- */
+.modal-backdrop {
+    position: fixed; inset: 0; background: rgba(31,27,20,0.5);
+    display: none; align-items: center; justify-content: center; padding: 16px; z-index: 50;
+}
+.modal-backdrop.open { display: flex; }
+.modal-box {
+    background: var(--surface-raised); border-radius: 10px; padding: 20px; max-width: 420px; width: 100%;
+}
+.modal-box .form-actions { justify-content: flex-end; }
+
+/* ---- Login page ---- */
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--brand-deep);
+    padding: 16px;
+}
+.login-card {
+    background: var(--surface-raised);
+    border-radius: 12px;
+    padding: 32px;
+    width: 100%;
+    max-width: 360px;
+}
+.login-card .brand { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-bottom: 20px; }
+.login-card .brand .company-name { font-weight: 700; font-size: 1.2rem; text-align: center; }
+
+/* ---- Responsive: works 375px to 1440px ---- */
+@media (max-width: 480px) {
+    .app-header { padding: 10px 12px; }
+    .page-header { flex-direction: column; align-items: stretch; }
+    .form-actions { flex-direction: column; }
+    .form-actions .btn { text-align: center; }
+}

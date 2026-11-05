@@ -1,0 +1,22 @@
+/* Color tokens only. Every other stylesheet must reference these custom
+   properties instead of a literal color, so the whole app re-themes from
+   one place. See PLAN.md / the brief for the contrast pairings each token
+   is allowed in. */
+:root {
+    --brand: #B8860B;
+    --brand-strong: #7A5C00;
+    --brand-deep: #5C4500;
+    --brand-tint: #F6ECCB;
+    --surface: #FFFDF7;
+    --surface-raised: #FFFFFF;
+    --ink: #1F1B14;
+    --muted: #5F5747;
+    --border: #E2D8BF;
+    --border-strong: #8A7F66;
+    --danger: #A3261B;
+    --danger-tint: #FBE3DF;
+    --success: #2F6B2F;
+    --success-tint: #E3F0DF;
+
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
